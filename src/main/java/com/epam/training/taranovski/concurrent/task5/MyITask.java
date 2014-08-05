@@ -12,4 +12,6 @@ package com.epam.training.taranovski.concurrent.task5;
 public interface MyITask {
 
     public void doWork();
+
+    public boolean isDone();
 }

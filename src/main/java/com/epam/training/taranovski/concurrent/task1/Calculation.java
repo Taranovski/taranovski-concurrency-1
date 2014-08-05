@@ -14,6 +14,8 @@ import java.util.logging.Logger;
  */
 public class Calculation {
 
+    public static final double STEP = 0.0001;
+
     private int threadCount;
     private long executionTime = 0;
 
@@ -21,37 +23,43 @@ public class Calculation {
     private double end;
     private Function function;
     private double result = 0;
-
-    private boolean ready = false;
+    private double tempStep;
 
     /**
      *
      * @param function
-     * @param start
-     * @param end
+     * @param number
      * @param threadCount
      */
-    public Calculation(Function function, double start, double end, int threadCount) {
+    public Calculation(Function function, double number, int threadCount) {
         this.threadCount = threadCount;
-        this.start = start;
-        this.end = end;
+
+        if (number > 0) {
+            this.start = -number;
+            this.end = number;
+        } else {
+            this.start = number;
+            this.end = -number;
+        }
+
         this.function = function;
+        this.tempStep = STEP * threadCount;
     }
 
     /**
      *
+     * @return
      */
-    public void execute() {
-        double part = (end - start) / threadCount;
+    public double execute() {
 
         CalculationPart[] array = new CalculationPart[threadCount];
 
-        double temp = start;
+        double temp = 0;
         long startTime = System.currentTimeMillis();
 
         for (int i = 0; i < threadCount; i++) {
-            array[i] = new CalculationPart(function, temp, temp + part);
-            temp += part;
+            array[i] = new CalculationPart(function, start + temp, end, tempStep);
+            temp += STEP;
             array[i].start();
         }
 
@@ -66,10 +74,10 @@ public class Calculation {
         for (int i = 0; i < threadCount; i++) {
             result += array[i].getResult();
         }
+        //result += function.calculate(end);
 
         executionTime = System.currentTimeMillis() - startTime;
-        ready = true;
-
+        return result;
     }
 
     /**
@@ -83,14 +91,6 @@ public class Calculation {
      * @return the executionTime
      */
     public long getExecutionTime() {
-        try {
-            while (!ready) {
-                Thread.sleep(100);
-            }
-        } catch (InterruptedException e) {
-
-        }
-
         return executionTime;
     }
 
@@ -113,20 +113,6 @@ public class Calculation {
      */
     public Function getFunction() {
         return function;
-    }
-
-    /**
-     * @return the result
-     */
-    public double getResult() {
-        try {
-            while (!ready) {
-                Thread.sleep(100);
-            }
-        } catch (InterruptedException e) {
-
-        }
-        return result;
     }
 
 }
