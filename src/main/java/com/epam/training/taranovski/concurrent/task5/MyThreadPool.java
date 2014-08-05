@@ -44,8 +44,9 @@ public class MyThreadPool {
      *
      */
     public void stop() {
-        for (int i = 0; i < threadCount; i++) {
-            threadPool[i].interrupt();
+        System.out.println("stopping thread pool...");
+        for (MyThread threadPool1 : threadPool) {
+            threadPool1.stopThread();
         }
     }
 
