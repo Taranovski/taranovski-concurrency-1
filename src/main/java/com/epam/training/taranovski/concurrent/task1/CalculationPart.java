@@ -11,24 +11,25 @@ package com.epam.training.taranovski.concurrent.task1;
  */
 public class CalculationPart extends Thread {
 
-    public static final double step = 0.0001;
-
     Function function;
     double result = 0;
 
     double start;
     double end;
+    double step;
 
     /**
      *
      * @param function
      * @param start
      * @param end
+     * @param step
      */
-    public CalculationPart(Function function, double start, double end) {
+    public CalculationPart(Function function, double start, double end, double step) {
         this.function = function;
         this.start = start;
         this.end = end;
+        this.step = step;
     }
 
     /**
@@ -36,11 +37,11 @@ public class CalculationPart extends Thread {
      */
     @Override
     public void run() {
-        for (double current = start; current < end; current += step) {
-            result += function.calculate(current);
+        for (double current = 0; current < end; current += step) {
+            result = result + function.calculate(current) + function.calculate(-current);
         }
     }
-    
+
     public double getResult() {
         return result;
     }

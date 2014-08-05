@@ -19,21 +19,22 @@ public class CalculationRunner {
 
         Function function = new SpecialFunction();
 
-        double start = -100;
-        double end = 100;
+        double number = 100;
 
         double mediumTime = 0;
         double mediumSumm = 0;
         int repeatNumber = 10;
         Calculation calc = null;
+        double result = 0;
 
         for (int i = 1; i < 50; i++) {
             mediumSumm = 0;
             mediumTime = 0;
             for (int j = 1; j < repeatNumber; j++) {
-                calc = new Calculation(function, start, end, i);
-                calc.execute();
+                calc = new Calculation(function, number, i);
+                result = calc.execute();
                 mediumSumm += calc.getExecutionTime();
+                System.out.println(result);
             }
             mediumTime = mediumSumm / repeatNumber;
 
