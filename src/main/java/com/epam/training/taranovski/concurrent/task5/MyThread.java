@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 public class MyThread extends Thread {
 
     private static MyTaskQueue queue;
-    private boolean busy = false;
     private MyITask myITask;
     private static final int DEFAULT_SLEEP = 100;
 
