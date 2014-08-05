@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class MyThread extends Thread {
 
-    private static Random random = new Random();
+    private Random random = new Random();
     private static final int SLEEP = 100;
     private static MyIterator iterator;
 

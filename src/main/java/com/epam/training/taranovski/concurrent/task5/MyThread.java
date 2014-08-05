@@ -32,7 +32,9 @@ public class MyThread extends Thread {
                     Logger.getLogger(MyThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
+                System.out.println("pool worker " + Thread.currentThread().getName() + " is working on task " + myITask);
                 myITask.doWork();
+                System.out.println("pool worker " + Thread.currentThread().getName() + " done its job");
             }
         }
     }
