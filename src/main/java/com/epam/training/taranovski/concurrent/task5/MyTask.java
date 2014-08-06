@@ -5,6 +5,7 @@
  */
 package com.epam.training.taranovski.concurrent.task5;
 
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,33 +15,19 @@ import java.util.logging.Logger;
  */
 public class MyTask implements MyITask {
 
+    private Random random = new Random();
     private int number;
     private int delay;
     private boolean done = false;
 
-    /**
-     *
-     * @param number
-     * @param delay
-     */
-    public MyTask(int number, int delay) {
-        this.number = number;
-        this.delay = delay;
-    }
-
-    /**
-     *
-     */
     @Override
     public void doWork() {
-        System.out.println("My number is: " + number);
-        System.out.println("working for " + delay + " ms...");
         try {
-            Thread.sleep(delay);
+            Thread.sleep(random.nextInt(1000));
         } catch (InterruptedException ex) {
-            Logger.getLogger(com.epam.training.taranovski.concurrent.task4.MyThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThreadPoolRunner.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("work complete");
+        number = random.nextInt(1000);
         done = true;
     }
 
@@ -51,6 +38,15 @@ public class MyTask implements MyITask {
     @Override
     public boolean isDone() {
         return done;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public int getResult() {
+        return number;
     }
 
 }
