@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  */
 public class ParalellMergeSort {
 
+    
     /**
      *
      * @param key
@@ -24,7 +25,7 @@ public class ParalellMergeSort {
      * @param end
      * @return
      */
-    private static int binarySearch(Integer key, 
+    private static int binarySearch(Integer key,
             List<Integer> list, int start, int end) {
         int low = start;
         int high = Math.max(start, end + 1);
@@ -46,15 +47,13 @@ public class ParalellMergeSort {
      * @param right
      * @param target
      */
-    private static void pMerge(List<Integer> list1, int start1, 
-            int end1, int start2, int end2, List<Integer> list2, 
+    private static void pMerge(List<Integer> list1, int start1,
+            int end1, int start2, int end2, List<Integer> list2,
             int start3) {
         int n1 = end1 - start1 + 1;
         int n2 = end2 - start2 + 1;
         int temp;
-        int q1;
-        int q2;
-        int q3;
+
         if (n1 < n2) {
             temp = start2;
             start2 = start1;
@@ -68,10 +67,12 @@ public class ParalellMergeSort {
             n2 = n1;
             n1 = temp;
         }
-        if (n1 != 0) {
-            q1 = (start1 + end1) / 2;
-            q2 = binarySearch(list1.get(q1), list1, start2, end2);
-            q3 = start3 + (q1 - start1) + (q2 - start2);
+        if (n1 == 0) {
+            return;
+        } else {
+            int q1 = (start1 + end1) / 2;
+            int q2 = binarySearch(list1.get(q1), list1, start2, end2);
+            int q3 = start3 + (q1 - start1) + (q2 - start2);
             list2.set(q3, list1.get(q1));
 
             final List<Integer> list1f = list1;
@@ -85,7 +86,7 @@ public class ParalellMergeSort {
             Thread fork = new Thread() {
                 @Override
                 public void run() {
-                    pMerge(list1f, start1f, q1f - 1, 
+                    pMerge(list1f, start1f, q1f - 1,
                             start2f, q2f - 1, list2f, start3f);
                 }
             };
@@ -107,17 +108,27 @@ public class ParalellMergeSort {
      * @param list2
      * @param start2
      */
-    public static void pMergeSort(List<Integer> list1, 
+    public static void pMergeSort(List<Integer> list1,
             int start, int end, List<Integer> list2, int start2) {
         int n = end - start + 1;
         if (n == 1) {
+//            synchronized (ParalellMergeSort.class) {
+//                System.out.println("start2: " + start2 + " start: " + start
+//                        + " list2.size: " + list2.size() + " list1.size: " + list1.size());
+//
+//            }
             list2.set(start2, list1.get(start));
         } else {
             List<Integer> list3 = new ArrayList(n);
+
+            for (int i = 0; i < n; i++) {
+                list3.add(i);
+            }
+
             int q = (start + end) / 2;
 //            int q1 = q - start + 1;
             int q1 = q - start;
-            
+
             final List<Integer> list1f = list1;
             final int startf = start;
             final int qf = q;
@@ -130,14 +141,14 @@ public class ParalellMergeSort {
                 }
             };
             fork.start();
-            pMergeSort(list1, q + 1, end, list2, q1 + 1);
+            pMergeSort(list1, q + 1, end, list3, q1 + 1);
             try {
                 fork.join();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ParalellMergeSort.class.getName()).log(Level.SEVERE, null, ex);
             }
-            pMerge(list3, 0, q1, q1 + 1, n-1, list2, start2);
-            
+            pMerge(list3, 0, q1, q1 + 1, n - 1, list2, start2);
+
         }
     }
 

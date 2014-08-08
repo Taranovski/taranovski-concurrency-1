@@ -20,13 +20,14 @@ public class SortRunner {
      * @param args
      */
     public static void main(String[] args) {
-        int size = 1000;
+        int size = 4000;
         List<Integer> list1 = new ArrayList(size);
         List<Integer> list2 = new ArrayList(size);
         Random random = new Random();
 
         for (int i = 0; i < size; i++) {
             list1.add(random.nextInt(size));
+            list2.add(random.nextInt(size));
         }
         
         System.out.println("list1: " + list1);
