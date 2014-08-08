@@ -113,17 +113,11 @@ public class ParalellMergeSort {
             int start, int end, L list2, int start2) {
         int n = end - start + 1;
         if (n == 1) {
-//            synchronized (ParalellMergeSort.class) {
-//                System.out.println("start2: " + start2 + " start: " + start
-//                        + " list2.size: " + list2.size() + " list1.size: " + list1.size());
-//
-//            }
             list2.set(start2, list1.get(start));
         } else {
             List<T> list3 = new ArrayList<>(list1);
 
             int q = (start + end) / 2;
-//            int q1 = q - start + 1;
             int q1 = q - start;
 
             final L list1f = list1;
