@@ -16,7 +16,6 @@ import java.util.logging.Logger;
  */
 public class ParalellMergeSort {
 
-    
     /**
      *
      * @param key
@@ -25,8 +24,8 @@ public class ParalellMergeSort {
      * @param end
      * @return
      */
-    private static int binarySearch(Integer key,
-            List<Integer> list, int start, int end) {
+    private static <T extends Comparable<T>, L extends List<T>> int binarySearch(T key,
+            L list, int start, int end) {
         int low = start;
         int high = Math.max(start, end + 1);
         int mid;
@@ -47,8 +46,8 @@ public class ParalellMergeSort {
      * @param right
      * @param target
      */
-    private static void pMerge(List<Integer> list1, int start1,
-            int end1, int start2, int end2, List<Integer> list2,
+    private static <T extends Comparable<T>, L extends List<T>> void pMerge(L list1, int start1,
+            int end1, int start2, int end2, L list2,
             int start3) {
         int n1 = end1 - start1 + 1;
         int n2 = end2 - start2 + 1;
@@ -75,12 +74,12 @@ public class ParalellMergeSort {
             int q3 = start3 + (q1 - start1) + (q2 - start2);
             list2.set(q3, list1.get(q1));
 
-            final List<Integer> list1f = list1;
+            final L list1f = list1;
             final int start1f = start1;
             final int q1f = q1;
             final int start2f = start2;
             final int q2f = q2;
-            final List<Integer> list2f = list2;
+            final L list2f = list2;
             final int start3f = start3;
 
             Thread fork = new Thread() {
@@ -102,14 +101,16 @@ public class ParalellMergeSort {
 
     /**
      *
+     * @param <T>
+     * @param <L>
      * @param list1
      * @param start
      * @param end
      * @param list2
      * @param start2
      */
-    public static void pMergeSort(List<Integer> list1,
-            int start, int end, List<Integer> list2, int start2) {
+    public static <T extends Comparable<T>, L extends List<T>> void pMergeSort(L list1,
+            int start, int end, L list2, int start2) {
         int n = end - start + 1;
         if (n == 1) {
 //            synchronized (ParalellMergeSort.class) {
@@ -119,20 +120,16 @@ public class ParalellMergeSort {
 //            }
             list2.set(start2, list1.get(start));
         } else {
-            List<Integer> list3 = new ArrayList(n);
-
-            for (int i = 0; i < n; i++) {
-                list3.add(i);
-            }
+            List<T> list3 = new ArrayList<>(list1);
 
             int q = (start + end) / 2;
 //            int q1 = q - start + 1;
             int q1 = q - start;
 
-            final List<Integer> list1f = list1;
+            final L list1f = list1;
             final int startf = start;
             final int qf = q;
-            final List<Integer> list3f = list3;
+            final List<T> list3f = list3;
 
             Thread fork = new Thread() {
                 @Override
