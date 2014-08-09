@@ -37,7 +37,7 @@ public class CalculationPart extends Thread {
      */
     @Override
     public void run() {
-        for (double current = 0; current < end; current += step) {
+        for (double current = start; current < end; current += step) {
             result = result + function.calculate(current) + function.calculate(-current);
         }
     }
