@@ -74,8 +74,7 @@ public class Calculation {
         for (int i = 0; i < threadCount; i++) {
             result += array[i].getResult();
         }
-        //result += function.calculate(end);
-
+        
         executionTime = System.currentTimeMillis() - startTime;
         return result;
     }

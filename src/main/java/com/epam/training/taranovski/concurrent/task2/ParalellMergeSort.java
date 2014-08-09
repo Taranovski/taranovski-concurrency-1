@@ -17,12 +17,15 @@ import java.util.logging.Logger;
 public class ParalellMergeSort {
 
     /**
+     * binary search of an key in a list
      *
-     * @param key
-     * @param list
-     * @param start
-     * @param end
-     * @return
+     * @param <T> an otem that is a comparable
+     * @param <L> an list that is a list of T
+     * @param key key to find
+     * @param list a list to look
+     * @param start an index of a list to look from
+     * @param end an index of a list to look to
+     * @return an index of item found
      */
     private static <T extends Comparable<T>, L extends List<T>> int binarySearch(T key,
             L list, int start, int end) {
@@ -41,10 +44,18 @@ public class ParalellMergeSort {
     }
 
     /**
+     * parallell merge function. in this function a two sublists are merged into
+     * one.
      *
-     * @param left
-     * @param right
-     * @param target
+     * @param <T> an otem that is a comparable
+     * @param <L> an list that is a list of T
+     * @param list1 a list from where to merge
+     * @param start1 an index of start of sublist #1 in list1 to merge from
+     * @param end1 an index of end of sublist #1 in list1 to merge to
+     * @param start2 an index of start of sublist #2 in list1 to merge from
+     * @param end2 an index of end of sublist #2 in list1 to merge to
+     * @param list2 a list to store merged result to
+     * @param start3 a start index in list2 from where to store result
      */
     private static <T extends Comparable<T>, L extends List<T>> void pMerge(L list1, int start1,
             int end1, int start2, int end2, L list2,
@@ -66,9 +77,7 @@ public class ParalellMergeSort {
             n2 = n1;
             n1 = temp;
         }
-        if (n1 == 0) {
-            return;
-        } else {
+        if (n1 != 0) {
             int q1 = (start1 + end1) / 2;
             int q2 = binarySearch(list1.get(q1), list1, start2, end2);
             int q3 = start3 + (q1 - start1) + (q2 - start2);
@@ -100,14 +109,15 @@ public class ParalellMergeSort {
     }
 
     /**
+     * parallell merge sort. function takes one list and saves sort results to another
      *
-     * @param <T>
-     * @param <L>
-     * @param list1
-     * @param start
-     * @param end
-     * @param list2
-     * @param start2
+     * @param <T> an otem that is a comparable
+     * @param <L> an list that is a list of T
+     * @param list1 a list to sort
+     * @param start an index from where to apply sorting
+     * @param end an index to where to apply sorting
+     * @param list2 a list to save results to
+     * @param start2 an index of list2 to start save results
      */
     public static <T extends Comparable<T>, L extends List<T>> void pMergeSort(L list1,
             int start, int end, L list2, int start2) {
