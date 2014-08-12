@@ -45,17 +45,17 @@ public class MyCircleBuffer<T> {
         if (item == null) {
             throw new RuntimeException("cannot put a null into a buffer");
         }
-        int toLock = currentWrite;
-        synchronized (locks[toLock]) {
-            while (buffer[currentWrite] != null) {
+        int toLock = -1;
+        synchronized (locks[toLock = currentWrite]) {
+            while (buffer[toLock] != null) {
                 try {
-                    locks[currentWrite].wait();
+                    locks[toLock].wait();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MyCircleBuffer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            buffer[currentWrite] = item;
-            currentWrite = (currentWrite + 1) % size;
+            buffer[toLock] = item;
+            currentWrite = (toLock + 1) % size;
             locks[toLock].notifyAll();
         }
     }
@@ -65,18 +65,19 @@ public class MyCircleBuffer<T> {
      * @return
      */
     public T get() {
-        int toLock = currentRead;
-        synchronized (locks[toLock]) {
-            while (buffer[currentRead] == null) {
+        int toLock = -1;
+        synchronized (locks[toLock = currentRead]) {
+            //toLock = currentRead;
+            while (buffer[toLock] == null) {
                 try {
-                    locks[currentRead].wait();
+                    locks[toLock].wait();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MyCircleBuffer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            T item = (T) buffer[currentRead];
-            buffer[currentRead] = null;
-            currentRead = (currentRead + 1) % size;
+            T item = (T) buffer[toLock];
+            buffer[toLock] = null;
+            currentRead = (toLock + 1) % size;
             locks[toLock].notifyAll();
             return item;
         }
