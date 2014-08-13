@@ -16,11 +16,22 @@ public class Runner {
      * @param args
      */
     public static void main(String[] args) {
-        MyCircleBuffer<Integer> buffer = new MyCircleBuffer<>(4);
+        MyCircleBuffer<Integer> buffer = new MyCircleBuffer<>(40);
         Consumer<Integer> consumer = new Consumer(buffer);
         Producer<Integer> producer = new Producer(buffer, new MyItemGenerator());
 
         new Thread(consumer).start();
+        new Thread(consumer).start();
+        new Thread(consumer).start();
+        new Thread(consumer).start();
+        new Thread(consumer).start();
+        new Thread(consumer).start();
+        
+        
+        new Thread(producer).start();
+        new Thread(producer).start();
+        new Thread(producer).start();
+        new Thread(producer).start();
         new Thread(producer).start();
     }
 

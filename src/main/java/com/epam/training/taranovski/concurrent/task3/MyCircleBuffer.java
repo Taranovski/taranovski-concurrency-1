@@ -45,8 +45,8 @@ public class MyCircleBuffer<T> {
         if (item == null) {
             throw new RuntimeException("cannot put a null into a buffer");
         }
-        int toLock = currentWrite;
-        synchronized (locks[toLock]) {
+        synchronized (locks[currentWrite]) {
+            int toLock = currentWrite;
             while (buffer[currentWrite] != null) {
                 try {
                     locks[currentWrite].wait();
@@ -65,8 +65,9 @@ public class MyCircleBuffer<T> {
      * @return
      */
     public T get() {
-        int toLock = currentRead;
-        synchronized (locks[toLock]) {
+        
+        synchronized (locks[currentRead]) {
+            int toLock = currentRead;
             while (buffer[currentRead] == null) {
                 try {
                     locks[currentRead].wait();
