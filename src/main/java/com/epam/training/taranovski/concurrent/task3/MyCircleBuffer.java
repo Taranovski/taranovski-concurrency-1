@@ -17,12 +17,12 @@ public class MyCircleBuffer<T> {
 
     private volatile int currentRead;
     private volatile int currentWrite;
+
     private int size;
     private Object[] buffer;
 
-    private Object writeLock = new Object();
-    private Object readLock = new Object();
-    //private Object[] locks;
+    private final Object writeLock = new Object();
+    private final Object readLock = new Object();
 
     /**
      *
@@ -33,43 +33,38 @@ public class MyCircleBuffer<T> {
         currentRead = 0;
         currentWrite = 0;
         buffer = new Object[size];
-//        locks = new Object[size];
-//        for (int i = 0; i < size; i++) {
-//            locks[i] = new Object();
-//        }
-
     }
 
     /**
      *
      * @param item
      */
-    public synchronized void put(T item) {
+    public void put(T item) {
         if (item == null) {
             throw new RuntimeException("cannot put a null into a buffer");
         }
-        int toLock = currentWrite;
-        while (buffer[currentWrite] != null) {
-            Thread.yield();
+        synchronized (writeLock) {
+            while (buffer[currentWrite] != null) {
+                Thread.yield();
+            }
+            buffer[currentWrite] = item;
+            currentWrite = (currentWrite + 1) % size;
         }
-        buffer[currentWrite] = item;
-        currentWrite = (currentWrite + 1) % size;
     }
 
     /**
      *
      * @return
      */
-    public synchronized T get() {
-
-//        synchronized (locks[currentRead]) {
-        int toLock = currentRead;
-        while (buffer[currentRead] == null) {
-            Thread.yield();
+    public T get() {
+        synchronized (readLock) {
+            while (buffer[currentRead] == null) {
+                Thread.yield();
+            }
+            T item = (T) buffer[currentRead];
+            buffer[currentRead] = null;
+            currentRead = (currentRead + 1) % size;
+            return item;
         }
-        T item = (T) buffer[currentRead];
-        buffer[currentRead] = null;
-        currentRead = (currentRead + 1) % size;
-        return item;
     }
 }
