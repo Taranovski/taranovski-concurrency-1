@@ -5,9 +5,6 @@
  */
 package com.epam.training.taranovski.concurrent.task3;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author user
