@@ -19,7 +19,10 @@ public class MyCircleBuffer<T> {
     private volatile int currentWrite;
     private int size;
     private Object[] buffer;
-    private Object[] locks;
+
+    private Object writeLock = new Object();
+    private Object readLock = new Object();
+    //private Object[] locks;
 
     /**
      *
@@ -30,10 +33,10 @@ public class MyCircleBuffer<T> {
         currentRead = 0;
         currentWrite = 0;
         buffer = new Object[size];
-        locks = new Object[size];
-        for (int i = 0; i < size; i++) {
-            locks[i] = new Object();
-        }
+//        locks = new Object[size];
+//        for (int i = 0; i < size; i++) {
+//            locks[i] = new Object();
+//        }
 
     }
 
@@ -41,45 +44,32 @@ public class MyCircleBuffer<T> {
      *
      * @param item
      */
-    public void put(T item) {
+    public synchronized void put(T item) {
         if (item == null) {
             throw new RuntimeException("cannot put a null into a buffer");
         }
-        synchronized (locks[currentWrite]) {
-            int toLock = currentWrite;
-            while (buffer[currentWrite] != null) {
-                try {
-                    locks[currentWrite].wait();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MyCircleBuffer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            buffer[currentWrite] = item;
-            currentWrite = (currentWrite + 1) % size;
-            locks[toLock].notifyAll();
+        int toLock = currentWrite;
+        while (buffer[currentWrite] != null) {
+            Thread.yield();
         }
+        buffer[currentWrite] = item;
+        currentWrite = (currentWrite + 1) % size;
     }
 
     /**
      *
      * @return
      */
-    public T get() {
-        
-        synchronized (locks[currentRead]) {
-            int toLock = currentRead;
-            while (buffer[currentRead] == null) {
-                try {
-                    locks[currentRead].wait();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MyCircleBuffer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            T item = (T) buffer[currentRead];
-            buffer[currentRead] = null;
-            currentRead = (currentRead + 1) % size;
-            locks[toLock].notifyAll();
-            return item;
+    public synchronized T get() {
+
+//        synchronized (locks[currentRead]) {
+        int toLock = currentRead;
+        while (buffer[currentRead] == null) {
+            Thread.yield();
         }
+        T item = (T) buffer[currentRead];
+        buffer[currentRead] = null;
+        currentRead = (currentRead + 1) % size;
+        return item;
     }
 }
