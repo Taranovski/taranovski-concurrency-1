@@ -20,7 +20,7 @@ public class MyIterator {
      */
     public MyIterator(MyObject[] myObjects) {
         this.myObjects = myObjects;
-        int current = 0;
+        current = 0;
         myObjects[current].setObj(this);
     }
 

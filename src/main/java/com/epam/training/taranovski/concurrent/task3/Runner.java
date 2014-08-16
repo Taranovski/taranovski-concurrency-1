@@ -11,6 +11,9 @@ package com.epam.training.taranovski.concurrent.task3;
  */
 public class Runner {
 
+    private Runner() {
+    }
+
     /**
      *
      * @param args

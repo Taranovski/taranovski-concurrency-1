@@ -16,6 +16,9 @@ import java.util.logging.Logger;
  */
 public class ParalellMergeSort {
 
+    private ParalellMergeSort() {
+    }
+
     /**
      * binary search of an key in a list
      *
@@ -109,7 +112,8 @@ public class ParalellMergeSort {
     }
 
     /**
-     * parallell merge sort. function takes one list and saves sort results to another
+     * parallell merge sort. function takes one list and saves sort results to
+     * another
      *
      * @param <T> an otem that is a comparable
      * @param <L> an list that is a list of T

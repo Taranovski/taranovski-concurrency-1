@@ -15,6 +15,9 @@ import java.util.Random;
  */
 public class SortRunner {
 
+    private SortRunner() {
+    }
+
     /**
      *
      * @param args
@@ -29,7 +32,7 @@ public class SortRunner {
             list1.add(random.nextInt(size));
             list2.add(random.nextInt(size));
         }
-        
+
         System.out.println("list1: " + list1);
         System.out.println("list2: " + list2);
 
@@ -37,6 +40,6 @@ public class SortRunner {
 
         System.out.println("list1: " + list1);
         System.out.println("list2: " + list2);
-        
+
     }
 }

@@ -42,7 +42,7 @@ public class ExitListener implements Runnable {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ExitListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.exit(0);
+                break;
             }
         }
     }

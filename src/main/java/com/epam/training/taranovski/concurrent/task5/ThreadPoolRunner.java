@@ -5,7 +5,6 @@
  */
 package com.epam.training.taranovski.concurrent.task5;
 
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,12 +14,14 @@ import java.util.logging.Logger;
  */
 public class ThreadPoolRunner {
 
+    private ThreadPoolRunner() {
+    }
+
     /**
      *
      * @param args
      */
     public static void main(String[] args) {
-        final Random random = new Random();
         MyThreadPool pool = new MyThreadPool(10);
         pool.start();
 
@@ -32,10 +33,10 @@ public class ThreadPoolRunner {
 
         pool.submitAll(taskList);
 
-        for (int i = 0; i < taskList.length; i++) {
+        for (MyITask taskList1 : taskList) {
             while (true) {
-                if (taskList[i].isDone()) {
-                    System.out.println("result for task " + taskList[i] + " equals: " + taskList[i].getResult());
+                if (taskList1.isDone()) {
+                    System.out.println("result for task " + taskList1 + " equals: " + taskList1.getResult());
                     break;
                 }
                 try {

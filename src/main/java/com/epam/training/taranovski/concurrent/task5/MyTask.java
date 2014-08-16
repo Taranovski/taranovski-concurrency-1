@@ -15,9 +15,8 @@ import java.util.logging.Logger;
  */
 public class MyTask implements MyITask {
 
-    private Random random = new Random();
+    private final Random random = new Random();
     private int number;
-    private int delay;
     private boolean done = false;
 
     @Override

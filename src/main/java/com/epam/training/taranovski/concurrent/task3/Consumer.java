@@ -13,7 +13,8 @@ package com.epam.training.taranovski.concurrent.task3;
 public class Consumer<T> implements Runnable {
 
     private final MyCircleBuffer<T> buffer;
-    T item;
+    private T item;
+    private boolean running;
 
     /**
      *
@@ -28,11 +29,15 @@ public class Consumer<T> implements Runnable {
      */
     @Override
     public void run() {
-        while (true) {
-//            System.out.println("consumer " + this + " trying to get...");
+        while (running) {
             item = buffer.get();
-//            System.out.println("consumer " + this + " got: " + item);
         }
     }
 
+    /**
+     *
+     */
+    public void stopMyThread() {
+        running = false;
+    }
 }

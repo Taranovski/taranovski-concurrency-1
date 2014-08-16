@@ -15,13 +15,14 @@ import java.util.logging.Logger;
  */
 public class MyThread extends Thread {
 
-    private Random random = new Random();
+    private final Random random = new Random();
     private static final int SLEEP = 100;
     private static MyIterator iterator;
 
-    int number;
-    int maxDelay;
-    MyObject myObj;
+    private final int number;
+    private final int maxDelay;
+    private final MyObject myObj;
+    private boolean running = true;
 
     /**
      *
@@ -40,7 +41,7 @@ public class MyThread extends Thread {
      */
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             if (myObj.getObj() == null) {
                 try {
                     Thread.sleep(SLEEP);
@@ -73,5 +74,12 @@ public class MyThread extends Thread {
      */
     public static void setIterator(MyIterator aIterator) {
         iterator = aIterator;
+    }
+
+    /**
+     *
+     */
+    public void stopMyThread() {
+        running = false;
     }
 }

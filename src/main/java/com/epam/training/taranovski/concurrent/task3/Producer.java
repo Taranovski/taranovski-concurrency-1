@@ -15,6 +15,7 @@ public class Producer<T> implements Runnable {
     private final MyCircleBuffer<T> buffer;
     private T item;
     private final MyItemGenerator<T> generator;
+    private boolean running = true;
 
     /**
      *
@@ -31,13 +32,17 @@ public class Producer<T> implements Runnable {
      */
     @Override
     public void run() {
-        while (true) {
-//            System.out.println("produser " + this + " trying to put...");
+        while (running) {
             item = generator.generate();
-
             buffer.put(item);
-//            System.out.println("produser " + this + " put: " + item);
         }
+    }
+
+    /**
+     *
+     */
+    public void stopMyThread() {
+        running = false;
     }
 
 }

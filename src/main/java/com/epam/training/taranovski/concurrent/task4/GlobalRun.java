@@ -11,6 +11,9 @@ package com.epam.training.taranovski.concurrent.task4;
  */
 public class GlobalRun {
 
+    private GlobalRun() {
+    }
+
     /**
      *
      * @param args

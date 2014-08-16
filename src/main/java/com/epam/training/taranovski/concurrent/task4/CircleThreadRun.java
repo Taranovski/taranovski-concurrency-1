@@ -13,16 +13,16 @@ import java.util.Random;
  */
 public class CircleThreadRun {
 
-    private static Random random = new Random();
-    private static final int minDelay = 200;
-    private static final int maxOffset = 800;
+    private static final Random RANDOM = new Random();
+    private static final int MIN_DELAY = 200;
+    private static final int MAX_OFFSET = 800;
 
-    private int threadCount;
+    private final int threadCount;
 
-    private MyObject[] myObjectArray;
-    private MyThread[] myThreadArray;
+    private final MyObject[] myObjectArray;
+    private final MyThread[] myThreadArray;
 
-    private MyIterator myIterator;
+    private final MyIterator myIterator;
 
     /**
      *
@@ -39,7 +39,7 @@ public class CircleThreadRun {
         myThreadArray = new MyThread[threadCount];
 
         for (int i = 0; i < threadCount; i++) {
-            myThreadArray[i] = new MyThread(i, minDelay + random.nextInt(maxOffset), myObjectArray[i]);
+            myThreadArray[i] = new MyThread(i, MIN_DELAY + RANDOM.nextInt(MAX_OFFSET), myObjectArray[i]);
         }
 
         myIterator = new MyIterator(myObjectArray);
@@ -61,7 +61,7 @@ public class CircleThreadRun {
      */
     public void stop() {
         for (int i = 0; i < threadCount; i++) {
-            myThreadArray[i].interrupt();
+            myThreadArray[i].stopMyThread();
         }
     }
 

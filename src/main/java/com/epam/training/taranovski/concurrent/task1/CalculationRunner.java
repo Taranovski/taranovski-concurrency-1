@@ -11,6 +11,9 @@ package com.epam.training.taranovski.concurrent.task1;
  */
 public class CalculationRunner {
 
+    private CalculationRunner() {
+    }
+
     /**
      *
      * @param args

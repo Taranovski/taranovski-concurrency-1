@@ -38,7 +38,7 @@ public class MyCircleBuffer<T> {
      */
     public void put(T item) {
         if (item == null) {
-            throw new RuntimeException("cannot put a null into a buffer");
+            throw new IllegalArgumentException("cannot put a null into a buffer");
         }
         synchronized (writeLock) {
             while (buffer[currentWrite] != null) {
