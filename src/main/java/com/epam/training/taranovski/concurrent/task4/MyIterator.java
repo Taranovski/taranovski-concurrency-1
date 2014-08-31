@@ -11,7 +11,8 @@ package com.epam.training.taranovski.concurrent.task4;
  */
 public class MyIterator {
 
-    private MyObject[] myObjects;
+    private static final Object TOKEN = new Object();
+    private final MyObject[] myObjects;
     private int current;
 
     /**
@@ -21,7 +22,7 @@ public class MyIterator {
     public MyIterator(MyObject[] myObjects) {
         this.myObjects = myObjects;
         current = 0;
-        myObjects[current].setObj(this);
+        myObjects[current].setObj(TOKEN);
     }
 
     /**

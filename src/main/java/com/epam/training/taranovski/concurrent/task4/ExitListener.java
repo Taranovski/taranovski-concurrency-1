@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class ExitListener implements Runnable {
 
     private CircleThreadRun circleThreadRun;
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in, "UTF-8");
 
     /**
      *
