@@ -5,6 +5,9 @@
  */
 package com.epam.training.taranovski.concurrent.task3;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author user
@@ -30,38 +33,48 @@ public class MyCircleBuffer<T> {
         currentRead = 0;
         currentWrite = 0;
         buffer = new Object[size];
+        System.out.println(buffer[0]);
     }
 
     /**
      *
      * @param item
      */
-    public void put(T item) {
+    public synchronized void put(T item) {
         if (item == null) {
             throw new IllegalArgumentException("cannot put a null into a buffer");
         }
-        synchronized (writeLock) {
-            while (buffer[currentWrite] != null) {
-                Thread.yield();
+
+        while (buffer[currentWrite] != null) {
+            try {
+                wait();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MyCircleBuffer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            buffer[currentWrite] = item;
-            currentWrite = (currentWrite + 1) % size;
         }
+        buffer[currentWrite] = item;
+        currentWrite = (currentWrite + 1) % size;
+        notifyAll();
     }
 
     /**
      *
      * @return
      */
-    public T get() {
-        synchronized (readLock) {
-            while (buffer[currentRead] == null) {
-                Thread.yield();
+    public synchronized T get() {
+
+        while (buffer[currentRead] == null) {
+            try {
+                wait();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MyCircleBuffer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            T item = (T) buffer[currentRead];
-            buffer[currentRead] = null;
-            currentRead = (currentRead + 1) % size;
-            return item;
         }
+        T item = (T) buffer[currentRead];
+        buffer[currentRead] = null;
+        currentRead = (currentRead + 1) % size;
+        notifyAll();
+        return item;
+
     }
 }

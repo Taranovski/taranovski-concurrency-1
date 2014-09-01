@@ -24,17 +24,17 @@ public class Runner {
         Producer<Integer> producer = new Producer(buffer, new MyItemGenerator());
 
         new Thread(producer, "1producer1").start();
-        new Thread(producer, "1producer2").start();
-        new Thread(producer, "1producer3").start();
-        new Thread(producer, "1producer4").start();
-        new Thread(producer, "1producer5").start();
+//        new Thread(producer, "1producer2").start();
+//        new Thread(producer, "1producer3").start();
+//        new Thread(producer, "1producer4").start();
+//        new Thread(producer, "1producer5").start();
 
         new Thread(consumer, "1consumer1").start();
-        new Thread(consumer, "1consumer2").start();
-        new Thread(consumer, "1consumer3").start();
-        new Thread(consumer, "1consumer4").start();
-        new Thread(consumer, "1consumer5").start();
-        new Thread(consumer, "1consumer6").start();
+//        new Thread(consumer, "1consumer2").start();
+//        new Thread(consumer, "1consumer3").start();
+//        new Thread(consumer, "1consumer4").start();
+//        new Thread(consumer, "1consumer5").start();
+//        new Thread(consumer, "1consumer6").start();
     }
 
 }

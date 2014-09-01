@@ -14,7 +14,7 @@ public class Consumer<T> implements Runnable {
 
     private final MyCircleBuffer<T> buffer;
     private T item;
-    private boolean running;
+    private volatile boolean running = true;
 
     /**
      *

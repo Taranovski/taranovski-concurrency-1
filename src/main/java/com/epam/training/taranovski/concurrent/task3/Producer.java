@@ -15,7 +15,7 @@ public class Producer<T> implements Runnable {
     private final MyCircleBuffer<T> buffer;
     private T item;
     private final MyItemGenerator<T> generator;
-    private boolean running = true;
+    private volatile boolean running = true;
 
     /**
      *
