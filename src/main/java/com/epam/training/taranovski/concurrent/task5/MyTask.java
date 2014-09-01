@@ -6,8 +6,6 @@
 package com.epam.training.taranovski.concurrent.task5;
 
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -21,12 +19,11 @@ public class MyTask implements MyITask {
 
     @Override
     public void doWork() {
-        try {
-            Thread.sleep(random.nextInt(1000));
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ThreadPoolRunner.class.getName()).log(Level.SEVERE, null, ex);
+
+        for (int i = 0; i < random.nextInt(10000000); i++) {
+            number += random.nextInt(10000000);
         }
-        number = random.nextInt(1000);
+
         done = true;
     }
 

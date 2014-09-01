@@ -5,8 +5,8 @@
  */
 package com.epam.training.taranovski.concurrent.task5;
 
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  *
@@ -20,14 +20,14 @@ public class MyTaskQueue {
      *
      */
     public MyTaskQueue() {
-        queue = new LinkedList();
+        queue = new ConcurrentLinkedQueue<>();
     }
 
     /**
      *
      * @param task
      */
-    public synchronized void addTask(MyITask task) {
+    public void addTask(MyITask task) {
         queue.add(task);
     }
 
@@ -35,7 +35,7 @@ public class MyTaskQueue {
      *
      * @return
      */
-    public synchronized MyITask getTask() {
+    public MyITask getTask() {
         return queue.poll();
     }
 

@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class MyThreadPool {
 
-    private MyTaskQueue queue;
-    private int threadCount;
-    private MyThread[] threadPool;
+    private final MyTaskQueue queue;
+    private final int threadCount;
+    private final MyThread[] threadPool;
 
     /**
      *
@@ -26,9 +26,8 @@ public class MyThreadPool {
         queue = new MyTaskQueue();
         threadPool = new MyThread[threadCount];
         for (int i = 0; i < threadCount; i++) {
-            threadPool[i] = new MyThread();
+            threadPool[i] = new MyThread(queue);
         }
-        MyThread.setQueue(queue);
     }
 
     /**

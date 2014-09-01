@@ -25,7 +25,7 @@ public class ThreadPoolRunner {
         MyThreadPool pool = new MyThreadPool(10);
         pool.start();
 
-        MyITask[] taskList = new MyITask[50];
+        MyITask[] taskList = new MyITask[50000];
 
         for (int i = 0; i < taskList.length; i++) {
             taskList[i] = new MyTask();

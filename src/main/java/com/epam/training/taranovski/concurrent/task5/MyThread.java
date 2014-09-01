@@ -14,10 +14,19 @@ import java.util.logging.Logger;
  */
 public class MyThread extends Thread {
 
-    private static MyTaskQueue queue;
+    private final MyTaskQueue queue;
     private MyITask myITask;
     private static final int DEFAULT_SLEEP = 100;
-    private boolean running = true;
+    private volatile boolean running = true;
+
+    /**
+     *
+     * @param queue
+     */
+    public MyThread(MyTaskQueue queue) {
+        super();
+        this.queue = queue;
+    }
 
     /**
      *
@@ -43,15 +52,8 @@ public class MyThread extends Thread {
     /**
      * @return the queue
      */
-    public static MyTaskQueue getQueue() {
+    public MyTaskQueue getQueue() {
         return queue;
-    }
-
-    /**
-     * @param aQueue the queue to set
-     */
-    public static void setQueue(MyTaskQueue aQueue) {
-        queue = aQueue;
     }
 
     /**
