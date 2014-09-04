@@ -11,27 +11,31 @@ package com.epam.training.taranovski.concurrent.task4;
  */
 public class MyIterator {
 
-    private static final Object TOKEN = new Object();
-    private final MyObject[] myObjects;
-    private int current;
+    private volatile int current;
+    private final int size;
 
     /**
      *
-     * @param myObjects
+     * @param size
      */
-    public MyIterator(MyObject[] myObjects) {
-        this.myObjects = myObjects;
+    public MyIterator(int size) {
         current = 0;
-        myObjects[current].setObj(TOKEN);
+        this.size = size;
     }
 
     /**
      *
      */
     public synchronized void goNext() {
-        myObjects[current].setObj(null);
-        current = (current + 1) % myObjects.length;
-        myObjects[current].setObj(this);
+        current = (current + 1) % size;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public synchronized int get() {
+        return current;
     }
 
 }

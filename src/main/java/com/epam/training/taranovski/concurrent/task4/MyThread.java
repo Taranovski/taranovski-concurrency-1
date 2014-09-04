@@ -5,7 +5,6 @@
  */
 package com.epam.training.taranovski.concurrent.task4;
 
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,26 +13,19 @@ import java.util.logging.Logger;
  * @author Alyx
  */
 public class MyThread extends Thread {
-
-    private final Random random = new Random();
-    private static final int SLEEP = 100;
-    private static MyIterator iterator;
-
+    
     private final int number;
-    private final int maxDelay;
-    private final MyObject myObj;
+    private final MyIterator iterator;
     private boolean running = true;
 
     /**
      *
      * @param number
-     * @param maxDelay
      * @param myObj
      */
-    public MyThread(int number, int maxDelay, MyObject myObj) {
+    public MyThread(int number, MyIterator myObj) {
         this.number = number;
-        this.maxDelay = maxDelay;
-        this.myObj = myObj;
+        this.iterator = myObj;
     }
 
     /**
@@ -41,39 +33,28 @@ public class MyThread extends Thread {
      */
     @Override
     public void run() {
+        
         while (running) {
-            if (myObj.getObj() == null) {
-                try {
-                    Thread.sleep(SLEEP);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MyThread.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
+            
+            if (iterator.get() == number) {
                 System.out.println("My number is: " + number);
-                System.out.println("working for " + random.nextInt(maxDelay) + " ms...");
+                iterator.goNext();
+            } else {
                 try {
-                    Thread.sleep(maxDelay);
+                    Thread.sleep(0);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MyThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("work complete");
-                iterator.goNext();
             }
+            
         }
     }
 
     /**
      * @return the iterator
      */
-    public static MyIterator getIterator() {
+    public MyIterator getIterator() {
         return iterator;
-    }
-
-    /**
-     * @param aIterator the iterator to set
-     */
-    public static void setIterator(MyIterator aIterator) {
-        iterator = aIterator;
     }
 
     /**
